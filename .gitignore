@@ -16,6 +16,7 @@ local.properties
 .recommenders
 .class
 .project
+.springBeans
 
 # External tool builders
 .externalToolBuilders/
