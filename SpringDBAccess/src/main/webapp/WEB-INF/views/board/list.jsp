@@ -18,13 +18,13 @@
             <th>비고</th>
         </tr>
         
-        <c:forEach var="article" items="">
+        <c:forEach var="article" items="${bList}">
             <tr>
-                <td></td>
+                <td>${article.boardNo }</td>
                 <td>
-                    <a href="#"></a>
+                    <a href="<c:url value ='/board/content?bno=${article.boardNo}'/>">${article.title }</a>
                 </td>
-                <td></td>
+                <td>${article.writer}</td>
                 <td>
                     <a href="#">[삭제]</a>
                 </td>

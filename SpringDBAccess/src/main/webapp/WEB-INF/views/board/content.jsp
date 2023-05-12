@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,15 +9,15 @@
 </head>
 <body>
 
-    <h2>???번 게시물 내용</h2>
+    <h2>${board.boardNo}번 게시물 내용</h2>
     <p>
-        # 작성자: ??? <br>
-        # 제목: ??? <br>
-        # 내용: <textarea rows="5" readonly>???</textarea>
+        # 작성자: ${board.writer} <br>
+        # 제목: ${board.title} <br>
+        # 내용: <textarea rows="5" readonly>${board.content}</textarea>
     </p>
     
-    <a href="#">글 목록 보기</a>
-    <a href="#">글 수정 하기</a>	
+    <a href="<c:url value='/board/list' />">글 목록 보기</a>
+    <a href="<c:url value='/board/modify?board=${board}'/>">글 수정 하기</a>	
 
 </body>
 </html>
