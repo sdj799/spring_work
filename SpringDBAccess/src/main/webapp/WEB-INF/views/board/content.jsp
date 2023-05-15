@@ -17,7 +17,7 @@
     </p>
     
     <a href="<c:url value='/board/list' />">글 목록 보기</a>
-    <a href="<c:url value='/board/modify?board=${board}'/>">글 수정 하기</a>	
+    <a href="<c:url value='/board/modify?bno=${board.boardNo}'/>">글 수정 하기</a>	
 
 </body>
 </html>

@@ -8,7 +8,7 @@
 </head>
 <body>
 
-	<h2>번 게시글 수정</h2>
+	<h2>${board.boardNo}번 게시글 수정</h2>
     <form method="post">
         <input type="hidden" name="boardNo" value="${board.boardNo}">
         <p>

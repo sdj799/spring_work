@@ -55,14 +55,13 @@ public class BoardController {
 		return "board/content";
 	}
 
-
 	//글 수정하기 화면으로 이동 요청
 	//메서드 이름은 modify(), url: /board/modify -> GET
 	//수정하고자 하는 글 정보를 모두 받아와서 modify.jsp로 보내 주세요.(글 번호 같이)
 	@GetMapping("modify")
-	public void modify(BoardVO board, Model model) {
+	public void modify(int bno, Model model) {
 		System.out.println("modify: GET");
-		model.addAttribute("board", board);
+		model.addAttribute("board", service.getArticle(bno));
 	}
 
 	//modify.jsp를 생성해서 form태그에 사용자가 처음에 작성했던 내용이 드러나도록
@@ -72,9 +71,13 @@ public class BoardController {
 	@PostMapping("modify")
 	public String modify(BoardVO board) {
 		service.updateArticle(board);
-		return "board/content";
+		return "redirect:/board/content?bno="+board.getBoardNo();
 	}
 
 	//삭제는 알아서 작성해 주세요. (삭제 클릭하면 해당 글이 삭제될 수 있도록)
-
+	@GetMapping("delete")
+	public String delete(int bno) {
+		service.deleteArticle(bno);
+		return "redirect:/board/list";
+	}
 }

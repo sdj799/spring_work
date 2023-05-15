@@ -14,21 +14,20 @@ import com.spring.db.model.BoardVO;
 @Repository
 public class BoardDAO implements IBoardDAO {
 
-
+	//내부 클래스 선언
 	class BoardMapper implements RowMapper<BoardVO> {
 
 		@Override
 		public BoardVO mapRow(ResultSet rs, int rowNum) throws SQLException {
 			System.out.println("mapRow 메서드 호출!");
 			System.out.println("rowNum: " + rowNum);
-			BoardVO vo = new BoardVO(
+			return new BoardVO(
 					rs.getInt("board_no"),
 					rs.getString("writer"),
 					rs.getString("title"),
 					rs.getString("content"),
 					rs.getTimestamp("reg_date").toLocalDateTime()
 					);
-			return vo;
 		}
 	}
 
@@ -46,23 +45,24 @@ public class BoardDAO implements IBoardDAO {
 
 	@Override
 	public List<BoardVO> getArticles() {
-		String sql = "SELECT * FROM jdbc_board ORDER BY board_no ASC";		
+		String sql = "SELECT * FROM jdbc_board ORDER BY board_no DESC";		
 		return template.query(sql, new BoardMapper());
 	}
 
 	@Override
 	public BoardVO getArticle(int bno) {
 		String sql = "SELECT * FROM jdbc_board WHERE board_no = ?";
-		try {
 			return template.queryForObject(sql, new BoardMapper(), bno);
-		} catch (Exception e) {
-			return null;
-		}
 	}
 
 	@Override
 	public void deleteArticle(int bno) {
-		// TODO Auto-generated method stub
+		String sql = "DELETE FROM jdbc_board WHERE board_no = ?";
+		try {
+			template.update(sql, bno);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 
