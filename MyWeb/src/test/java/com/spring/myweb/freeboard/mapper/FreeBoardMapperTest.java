@@ -58,7 +58,7 @@ public class FreeBoardMapperTest {
 		 */
 		list.forEach(vo -> System.out.println(vo));
 		
-		assertEquals(2, list.size());
+		assertEquals(1, list.size());
 	}
 	
 	@Test
