@@ -56,7 +56,7 @@ public class FreeBoardController {
 	@PostMapping("/update")
 	public String update(FreeBoardVO vo) {
 		service.update(vo);
-		return "redirect:/freeboard/content?bno="+vo.getBno();
+		return "redirect:/freeboard/content/"+vo.getBno();
 	}
 	
 	//삭제
