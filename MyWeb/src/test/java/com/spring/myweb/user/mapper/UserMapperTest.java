@@ -1,8 +1,13 @@
 package com.spring.myweb.user.mapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -45,8 +50,13 @@ public class UserMapperTest {
 		//given
 		String id = "abc1234";
 		String pw = "aaa1111!";
+		/*
+		Map<String, String> data = new HashMap<>();
+		data.put("userId", "abc1234");
+		data.put("userPw", "aaa1111!");
+		*/
 		//when
-		mapper.login(id, pw);
+		assertNotNull(mapper.login(id, pw));
 	}
 	
 	@Test
@@ -62,12 +72,14 @@ public class UserMapperTest {
 		UserVO vo = new UserVO();
 		vo.setUserId("abc1234");
 		vo.setUserPw("aaa1111!");
-		vo.setUserName("홍길동");
+		vo.setUserName("홍수정");
 		vo.setUserPhone1("1234");
 		vo.setUserPhone2("5678");
-		vo.setUserEmail1("abc");
-		vo.setUserEmail2("1234");
+		vo.setUserEmail1("abc1234");
+		vo.setUserEmail2("naver.com");
 		mapper.updateUser(vo);
+		
+		assertEquals(mapper.getInfo("abc1234").getUserName(), vo.getUserName());
 		
 	}
 }

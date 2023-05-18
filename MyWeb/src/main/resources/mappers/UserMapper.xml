@@ -29,9 +29,11 @@
 	
 	<update id="updateUser">
 		UPDATE users
-		SET user_pw = #{userPw}, user_name = #{userName}, user_phone1 = #{userPhone1},
-		user_phone2 = #{userPhone2}, user_email1 = #{userEmail1}, user_email2 = #{userEmail2},
-		addr_basic = #{addrBasic}, addr_detail = #{addrDetail}, addr_zip_num = #{addrZipNum}
+		SET user_pw = #{userPw}, user_name = #{userName}, 
+		user_phone1 = #{userPhone1}, user_phone2 = #{userPhone2}, 
+		user_email1 = #{userEmail1}, user_email2 = #{userEmail2},
+		addr_basic = #{addrBasic}, addr_detail = #{addrDetail}, 
+		addr_zip_num = #{addrZipNum}
 		WHERE user_id = #{userId}
 	</update>
 	
