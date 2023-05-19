@@ -54,7 +54,7 @@
                                         <li><a href="${pageContext.request.contextPath}/user/userLogin"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
                                     </c:if>
                                     <c:if test="${login != null}">
-                                        <li><a href="${pageContext.request.contextPath}/user/userMyPage"><span class="glyphicon glyphicon-user"></span>MyPage</a></li>
+                                        <li><a href="${pageContext.request.contextPath}/user/userMypage"><span class="glyphicon glyphicon-user"></span>MyPage</a></li>
                                         <li><a href="${pageContext.request.contextPath}/user/userLogout"><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
                                     </c:if>
                                     </ul>

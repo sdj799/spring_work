@@ -68,4 +68,9 @@ public class UserController {
 		log.info("나는 UserController의 login이다");
 		model.addAttribute("user", service.login(userId, userPw));
 	}
+	
+	//마이페이지 이동 요청
+	@GetMapping("/userMypage")
+	public void userMypage() {}
+	
 }
