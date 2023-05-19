@@ -67,7 +67,6 @@ public class MailSenderService {
 			mailSender.send(massage);
 			
 		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
