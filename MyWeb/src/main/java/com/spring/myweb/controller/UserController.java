@@ -82,6 +82,7 @@ public class UserController {
 		
 		//세션 데이터에서 id를 뽑아야 sql을 돌릴 수 있겠죠?
 		String id = (String) session.getAttribute("login");
+		vo.setLoginId(id);
 		PageCreator pc = new  PageCreator(vo, boardService.getTotal(vo));
 		model.addAttribute("userInfo", service.getInfo(id, vo));
 		model.addAttribute("pc", pc);
