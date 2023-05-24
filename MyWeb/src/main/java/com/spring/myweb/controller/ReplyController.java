@@ -71,7 +71,7 @@ public class ReplyController {
 		vo.setRno(rno);
 		if(service.pwCheck(vo)) {
 			service.delete(rno);
-			return "deleteSuccess";
+			return "delSuccess";
 		} else {
 			return "pwFail";
 		}
