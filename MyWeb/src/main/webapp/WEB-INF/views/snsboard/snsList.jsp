@@ -251,7 +251,7 @@
 	<%@ include file="../include/footer.jsp" %>
 	<!-- 모달 -->
 	<div class="modal fade" id="snsModal" role="dialog">
-			<div class="modal-dialog modal-lg">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-body row">
 					<div class="modal-img col-sm-8 col-xs-6" >
@@ -390,7 +390,8 @@
 						</div>
 						<div class="title">
 							<p>`+ vo.writer + `</p>
-							<small>`+ vo.regDate + `</small>
+							<small>`+ vo.regDate + `</small> &nbsp;&nbsp;
+							<a id="download" href="${pageContext.request.contextPath}/snsboard/download/`+vo.fileLoca+ `/` + vo.fileName +`">이미지 다운로드</a>
 						</div>
 					</div>
 					<div class="content-inner">
@@ -399,17 +400,18 @@
 					</div>
 					<div class="image-inner">
 						<!-- 이미지영역 -->
-						<img src="${pageContext.request.contextPath}/snsboard/display/`+ vo.fileLoca +`/`+ vo.fileName + `">
-						
+						<a href="` + vo.bno + `">
+						<img data-bno= "` + vo.bno + `" src="${pageContext.request.contextPath}/snsboard/display/`+ vo.fileLoca +`/`+ vo.fileName + `">
+						</a>
 					</div>
 					<div class="like-inner">
 						<!--좋아요-->
-						<img src="${pageContext.request.contextPath}/img/icon.jpg"> <span>522</span>
+						<img  src="${pageContext.request.contextPath}/img/icon.jpg"> <span>522</span>
 					</div>
 					<div class="link-inner">
 						<a href="##"><i class="glyphicon glyphicon-thumbs-up"></i>좋아요</a>
-						<a href="`+ vo.bno + `"><i class="glyphicon glyphicon-comment"></i>댓글달기</a> 
-						<a href="`+ vo.bno + `"><i class="glyphicon glyphicon-remove"></i>삭제하기</a>
+						<a id="comment" data-bno= "` + vo.bno + `" href="`+ vo.bno + `"><i class="glyphicon glyphicon-comment"></i>댓글달기</a> 
+						<a id="delBtn" href="`+ vo.bno + `"><i class="glyphicon glyphicon-remove"></i>삭제하기</a>
 					</div>`;
 				} 
 				if(!reset) {
@@ -419,6 +421,68 @@
 				}
 			}) //end fetch
 		} //end getList()
+
+		//상세보기 처리 (모달창 열어줄 겁니다.)
+		document.getElementById('contentDiv').addEventListener('click', e => {
+			e.preventDefault(); //a태그 고유기능을 중지
+			
+			//글 번호 얻기
+			const bno = e.target.dataset.bno;
+			console.log('bno: ' + bno);
+
+			if(!e.target.matches('.image-inner img') 
+				&& !e.target.matches('.link-inner #comment')
+				&& !e.target.matches('.title #download')) {
+				return;
+			}
+
+			if(e.target.matches('.title #download')) {
+				if(confirm('다운로드를 진행합니다.')) {
+					location.href = e.target.getAttribute('href');
+					return;
+				} else return;
+			}
+			//fetch 함수를 사용하여 글 상세 보기 요청을 비동기 식으로 요청하세요.
+			//전달 받은 글 내용을 미리 준비한 모달창에 뿌릴 겁니다. (모달 위에 있어요.)
+			//값을 제 위치에 배치하시고 모달을 열어 주세요. (부트스트랩 모달이기 때문에 jQuery로 열어주세요.)
+			// url: /snsboard/content/글번호
+			fetch('${pageContext.request.contextPath}/snsboard/content/' + bno)
+				.then(res => res.json())
+					.then(data => {
+						document.getElementById('snsWriter').textContent = data.writer;
+						document.getElementById('snsRegdate').textContent = data.regDate;
+						document.getElementById('snsContent').textContent = data.content;
+						document.getElementById('snsImg').setAttribute('src', '${pageContext.request.contextPath}/snsboard/display/' + data.fileLoca + '/' + data.fileName);
+					});
+			$('#snsModal').modal('show');
+		});
+
+		//삭제 처리
+		//삭제하기 링크를 클릭했을 때 이벤트를 발생 시켜서
+		//비동기 방식으로 삭제를 진행해 주세요. (삭제 버튼은 여러 개 입니다!)
+		//서버쪽에서 권한을 확인 해 주세요. (작성자와 로그인 중인 사용자의 id를 비교해서 일치하는지의 여부)
+		//일치하지 않는다면 문자열 "noAuth"리턴, 삭제 완료하면 "success" 리턴
+		//url: /snsboard/글번호 method: DELETE
+		
+		document.getElementById('contentDiv').addEventListener('click', e => {
+			e.preventDefault();
+			if(!e.target.matches('.link-inner #delBtn')) return;
+			const bno = e.target.getAttribute('href');
+			if (!confirm('정말 삭제하시겠어요?')) return;
+			
+			fetch('${pageContext.request.contextPath}/snsboard/'+ bno , {
+				method : 'delete'
+			}).then(res => res.text())
+					.then(text => {
+						if(text === 'noAuth') alert('권한이 없습니다!');
+						else if(text === 'fail') alert('관리자에게 문의하세요!');
+						else {
+							alert('게시물이 정상적으로 삭제되었습니다.');
+							getList(1, true); //삭제가 반영된 새로운 글 목록 보여주기.
+						}
+					});
+		});
+
 		
 		/*
 		무한 스크롤 페이징
